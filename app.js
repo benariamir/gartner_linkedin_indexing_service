@@ -31,6 +31,7 @@ class App {
 co(function*() {
 	var downloadClient = new DownloadClient();
 	var indexingClient = new IndexingClient();
+	yield indexingClient.initialize();
 	var linkedInParsingManager = new LinkedInParsingManager(indexingClient);
 	var requestHandler = new RequsetHandler(downloadClient,linkedInParsingManager);
 	var app = new App(requestHandler);
