@@ -1,9 +1,8 @@
 'use strict';
 
 var router = require('koa-router')({ prefix: '/api_v1' });
-var linkedinPrefix = global.conf.linkedin_parsing.http_prefix;
 
-module.exports = function routes(downloadClient,parsingMangager) {
+module.exports = function routes(requestHandler) {
 
 	router.put('/profile/:id',function*() {
 		var linkedInProfileId = this.params.id;
@@ -11,9 +10,7 @@ module.exports = function routes(downloadClient,parsingMangager) {
 		if (linkedInProfileId === undefined) {
 			throw new Error('No LinkedIn profile Id has been given.');
 		}
-		var fullLinkedInHttpUrl = linkedinPrefix + linkedInProfileId;
-		log.trace(`Sending ${fullLinkedInHttpUrl} for future download and parsing.`);
-		downloadClient.fetchUrl(fullLinkedInHttpUrl,parsingMangager.parseLinkedInHtml.bind(parsingMangager));
+		yield requestHandler.getProfile(linkedInProfileId);
 		this.status = 204;
 	});
 
