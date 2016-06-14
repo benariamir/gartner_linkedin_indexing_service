@@ -12,6 +12,8 @@ var LinkedInParsingManager = require('./lib/linkedin_parsing');
 var IndexingClient = require('./lib/solr_indexing');
 var RequsetHandler = require('./lib/request_handler');
 var ProfileDownloadManager = require('./lib/download_manager');
+var solr = require('solr-client');
+var Bluebird = require('bluebird')
 
 class App {
 	constructor(requestHandler) {
@@ -33,7 +35,10 @@ co(function*() {
 
 	var downloadClient = new DownloadClient();
 	var downloadManager = new ProfileDownloadManager(downloadClient);
-	var indexingClient = new IndexingClient();
+	var solrConnectionSettings = global.conf.solr_indexing.connection_settings;
+	var solrClient = solr.createClient(solrConnectionSettings);
+	solrClient = Bluebird.promisifyAll(solrClient);
+	var indexingClient = new IndexingClient(solrClient);
 	yield indexingClient.initialize();
 	var linkedInParsingManager = new LinkedInParsingManager(indexingClient);
 	var requestHandler = new RequsetHandler(downloadManager,linkedInParsingManager);
