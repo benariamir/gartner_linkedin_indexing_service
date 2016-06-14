@@ -11,6 +11,7 @@ var DownloadClient = require('./lib/download_client');
 var LinkedInParsingManager = require('./lib/linkedin_parsing');
 var IndexingClient = require('./lib/solr_indexing');
 var RequsetHandler = require('./lib/request_handler');
+var ProfileDownloadManager = require('./lib/download_manager');
 
 class App {
 	constructor(requestHandler) {
@@ -29,11 +30,13 @@ class App {
 }
 
 co(function*() {
+
 	var downloadClient = new DownloadClient();
+	var downloadManager = new ProfileDownloadManager(downloadClient);
 	var indexingClient = new IndexingClient();
 	yield indexingClient.initialize();
 	var linkedInParsingManager = new LinkedInParsingManager(indexingClient);
-	var requestHandler = new RequsetHandler(downloadClient,linkedInParsingManager);
+	var requestHandler = new RequsetHandler(downloadManager,linkedInParsingManager);
 	var app = new App(requestHandler);
 
 	yield app.run();
