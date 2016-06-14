@@ -10,7 +10,7 @@ var Bluebird = require('bluebird');
 
 
 describe('End to end test',function() {
-	it ('Is Url homepage test on homepages',function*() {
+	it ('End to end test using client testers',function*() {
 		this.timeout(20000);
 		var downloadClientTester = new DownloadClientTester();
 		var downloadManager = new ProfileDownloadManager(downloadClientTester);
