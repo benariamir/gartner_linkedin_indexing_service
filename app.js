@@ -49,3 +49,5 @@ co(function*() {
 	log.error(err);
 	process.abort();
 });
+
+module.exports = App;
