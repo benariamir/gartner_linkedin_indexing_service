@@ -15,7 +15,7 @@ var bunyanStreams = [
 ];
 
 global.log = bunyan.createLogger({
-	name: 'docker_pool_service',
+	name: 'linekding_indexing_service',
 	level: config.log_level,
 	serializers: bunyan.stdSerializers,
 	streams: bunyanStreams

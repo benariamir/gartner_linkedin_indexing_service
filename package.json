@@ -1,5 +1,5 @@
 {
-  "name": "LinkedIn Parsing Service",
+  "name": "linkedin_indexing_service",
   "repository": "https://github.com/benariamir/gartner_linkedin_indexing_service",
   "description": "Service to parse and index LinkedIn profile pages",
   "scripts": {
